@@ -69,6 +69,13 @@ class MainActivity : AppCompatActivity() {
     }
 
     // reverseString() should take variable of type String and return the reversed version of the string
+    fun reverseString(): String {
+        var newString = ""
+        for (i in (String.length - 1)..0) {
+            newString += String.get(i)
+        }
+        return newString
+    }
 
     fun setTimer(timeMillis: Long, text: String) {
         // After timeMillis milliseconds have elapsed, should print text to the log
