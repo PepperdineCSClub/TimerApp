@@ -35,7 +35,7 @@ class MainActivity : AppCompatActivity() {
         val formattedTime = formatTime(timeSinceMidnightMillis)
         // Timer text should be set to formattedTime
     }
-
+    
     // formatTime() should take a variable of type long, representing the number of milliseconds since 12am,
     // and return a string of formatted time. It should use formatHoursMinutesSecondsMillis()
 
@@ -61,14 +61,24 @@ class MainActivity : AppCompatActivity() {
     // multiply it by two and return the string of that number. Otherwise, just return the string
     fun modifyText(x: String): String {
         var y = 0.0
-        if (x.isDouble()) {
+        return if (x.isDouble()) {
             y = x.toDouble()
             y *= 2.0
+            y.toString()
+        } else {
+            x
         }
-        return y.toString()
     }
 
     // reverseString() should take variable of type String and return the reversed version of the string
+
+    fun reverseString(input: String): String {
+        var newString = ""
+        for (i in 0 until input.length) {
+            newString += input.get(input.length - 1 - i)
+        }
+        return newString
+    }
 
     fun setTimer(timeMillis: Long, text: String) {
         // After timeMillis milliseconds have elapsed, should print text to the log
