@@ -1,0 +1,3 @@
+C:/Github/TimerApp/resursiveSorts/cmake-build-debug/CMakeFiles/resursiveSorts.dir
+C:/Github/TimerApp/resursiveSorts/cmake-build-debug/CMakeFiles/edit_cache.dir
+C:/Github/TimerApp/resursiveSorts/cmake-build-debug/CMakeFiles/rebuild_cache.dir

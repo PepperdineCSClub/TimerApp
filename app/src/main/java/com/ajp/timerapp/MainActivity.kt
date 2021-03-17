@@ -59,6 +59,14 @@ class MainActivity : AppCompatActivity() {
 
     // modifyText() should take a variable of type String. If that string can be interpreted as a double,
     // multiply it by two and return the string of that number. Otherwise, just return the string
+    fun modifyText(x: String): String {
+        var y = 0.0
+        if (x.isDouble()) {
+            y = x.toDouble()
+            y *= 2.0
+        }
+        return y.toString()
+    }
 
     // reverseString() should take variable of type String and return the reversed version of the string
 
