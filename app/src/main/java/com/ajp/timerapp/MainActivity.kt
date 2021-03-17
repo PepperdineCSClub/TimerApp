@@ -51,17 +51,12 @@ class MainActivity : AppCompatActivity() {
     // formatHoursMinutesSecondsMillis() should take four variables: the number of hours, minutes,
     // seconds, and milliseconds, all of type long, and return a formatted string
     fun formatHoursMinutesSecondsMillis(hours: Long, minutes: Long, seconds: Long, millis: Long): String {
-        val formattedMinutes = if (minutes < 10L) {
-            "0$minutes"
-        } else {
-            "$minutes"
-        }
-        val formattedSeconds = if (seconds < 10L) {
-            "0$seconds"
-        } else {
-            "$seconds"
-        }
-        return "$hours:$formattedMinutes:$formattedSeconds.$millis"
+
+        val zeroPaddedMinutes = if (minutes < 10L) "0$minutes" else "$minutes"
+        val zeroPaddedSeconds = if (seconds < 10L) "0$seconds" else "$seconds"
+
+        return "$hours:$zeroPaddedMinutes:$zeroPaddedSeconds:$millis"
+
     }
 
     fun onButtonClick(v: View) {
