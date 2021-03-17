@@ -1,10 +1,11 @@
 package com.ajp.timerapp
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
-import android.view.Choreographer
 import android.view.View
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.ajp.timerapp.databinding.ActivityMainBinding
 import kotlinx.coroutines.delay
@@ -34,20 +35,41 @@ class MainActivity : AppCompatActivity() {
         val timeSinceMidnightMillis = currentTime - calendar.time.time
         val formattedTime = formatTime(timeSinceMidnightMillis)
         // Timer text should be set to formattedTime
+        binding.timerText.text = formattedTime
     }
 
     // formatTime() should take a variable of type long, representing the number of milliseconds since 12am,
     // and return a string of formatted time. It should use formatHoursMinutesSecondsMillis()
+    fun formatTime(time: Long): String {
+        val millis = time % 1000L
+        val seconds = (time / 1000L) % 60L
+        val minutes = (time / (1000L * 60L)) % 60L
+        val hours = (time / (1000L * 60L * 60L))
+        return formatHoursMinutesSecondsMillis(hours, minutes, seconds, millis)
+    }
 
     // formatHoursMinutesSecondsMillis() should take four variables: the number of hours, minutes,
     // seconds, and milliseconds, all of type long, and return a formatted string
+    fun formatHoursMinutesSecondsMillis(hours: Long, minutes: Long, seconds: Long, millis: Long): String {
+        val formattedMinutes = if (minutes < 10L) {
+            "0$minutes"
+        } else {
+            "$minutes"
+        }
+        val formattedSeconds = if (seconds < 10L) {
+            "0$seconds"
+        } else {
+            "$seconds"
+        }
+        return "$hours:$formattedMinutes:$formattedSeconds.$millis"
+    }
 
     fun onButtonClick(v: View) {
         val modifiedText = modifyText(binding.timerReminderInput.text.toString())
         val reversedModifiedText = reverseString(modifiedText)
         val calendar = Calendar.getInstance()
         val currentTime = calendar.time.time
-        calendar.set(Calendar.HOUR, binding.timePicker.currentHour)
+        calendar.set(Calendar.HOUR_OF_DAY, binding.timePicker.currentHour)
         calendar.set(Calendar.MINUTE, binding.timePicker.currentMinute)
         calendar.set(Calendar.SECOND, 0)
         calendar.set(Calendar.MILLISECOND, 0)
@@ -64,26 +86,30 @@ class MainActivity : AppCompatActivity() {
         if (x.isDouble()) {
             y = x.toDouble()
             y *= 2.0
+            return y.toString()
+        } else {
+            return x
         }
-        return y.toString()
     }
 
     // reverseString() should take variable of type String and return the reversed version of the string
-    fun reverseString(): String {
+    fun reverseString(input: String): String {
         var newString = ""
-        for (i in (String.length - 1)..0) {
-            newString += String.get(i)
+        for (i in 0 until input.length) {
+            newString += input.get(input.length - 1 - i)
         }
         return newString
     }
 
     fun setTimer(timeMillis: Long, text: String) {
         // After timeMillis milliseconds have elapsed, should print text to the log
-        fun Timer.schedule(
-            delay: timeMillis,
-            action: TimerTask.() -> Unit
-        ) : Log.i {
-        }("TimerApp", text)
+        Timer("Ahmed's Thread").schedule(object : TimerTask() {
+            override fun run() {
+                Log.i("TimerApp", text)
+            }
+        }, timeMillis)
+
+        // Alternate method: Handler(Looper.myLooper()!!).postDelayed({ Log.i("TimerApp", text) }, timeMillis)
     }
 
     fun String.isDouble(): Boolean {
