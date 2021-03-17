@@ -1,13 +1,11 @@
 package com.ajp.timerapp
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.os.Message
 import android.util.Log
-import android.view.Choreographer
 import android.view.View
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.ajp.timerapp.databinding.ActivityMainBinding
 import kotlinx.coroutines.delay
@@ -52,7 +50,7 @@ class MainActivity : AppCompatActivity() {
 
     // formatHoursMinutesSecondsMillis() should take four variables: the number of hours, minutes,
     // seconds, and milliseconds, all of type long, and return a formatted string
-    fun formatHoursMinutesSecondsMillis(hours: Long, minutes: Long, seconds: Long, millis:Long): String {
+    fun formatHoursMinutesSecondsMillis(hours: Long, minutes: Long, seconds: Long, millis: Long): String {
         val formattedMinutes = if (minutes < 10L) {
             "0$minutes"
         } else {
@@ -83,26 +81,35 @@ class MainActivity : AppCompatActivity() {
 
     // modifyText() should take a variable of type String. If that string can be interpreted as a double,
     // multiply it by two and return the string of that number. Otherwise, just return the string
-    fun modifyText(text: String): String {
-        if (text.isDouble()) {
-            return (text.toDouble() * 2.0).toString()
+    fun modifyText(x: String): String {
+        var y = 0.0
+        if (x.isDouble()) {
+            y = x.toDouble()
+            y *= 2.0
+            return y.toString()
         } else {
-            return text
+            return x
         }
     }
 
     // reverseString() should take variable of type String and return the reversed version of the string
-    fun reverseString(text: String): String {
-        var reversed = ""
-        for (i in 0 until text.length) {
-            reversed += text[text.length - 1 - i]
+    fun reverseString(input: String): String {
+        var newString = ""
+        for (i in 0 until input.length) {
+            newString += input.get(input.length - 1 - i)
         }
-        return reversed
+        return newString
     }
 
     fun setTimer(timeMillis: Long, text: String) {
         // After timeMillis milliseconds have elapsed, should print text to the log
-        Handler(Looper.myLooper()!!).postDelayed( Runnable { Log.i("TimerApp", text) }, timeMillis)
+        Timer("Ahmed's Thread").schedule(object : TimerTask() {
+            override fun run() {
+                Log.i("TimerApp", text)
+            }
+        }, timeMillis)
+
+        // Alternate method: Handler(Looper.myLooper()!!).postDelayed({ Log.i("TimerApp", text) }, timeMillis)
     }
 
     fun String.isDouble(): Boolean {
