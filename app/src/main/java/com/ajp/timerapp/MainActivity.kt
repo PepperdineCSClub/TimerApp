@@ -79,7 +79,11 @@ class MainActivity : AppCompatActivity() {
 
     fun setTimer(timeMillis: Long, text: String) {
         // After timeMillis milliseconds have elapsed, should print text to the log
-        Log.i("TimerApp", text)
+        fun Timer.schedule(
+            delay: timeMillis,
+            action: TimerTask.() -> Unit
+        ) : Log.i {
+        }("TimerApp", text)
     }
 
     fun String.isDouble(): Boolean {
